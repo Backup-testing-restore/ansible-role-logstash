@@ -11,5 +11,5 @@
 
 - src: https://github.com/cloud-labs-infra/ansible-role-logstash.git
   scm: git
-  version: 1.0.0
+  version: 0.1.0
   name: ansible-role-logstash
