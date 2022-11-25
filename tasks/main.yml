@@ -4,6 +4,8 @@
 
 - name: Apply default configurations
   include: configuration.yml
+- name: Install and verify plugins from configs
+  include: plugins.yml
 
 - name: Ensure Logstash is started and enabled on boot.
   service:
