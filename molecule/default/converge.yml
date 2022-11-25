@@ -8,17 +8,26 @@
 
   pre_tasks:
     - name: Update apt cache.
-      apt: update_cache=true cache_valid_time=600
-      when: ansible_os_family == 'Debian'
+      apt: 
+        update_cache: true
 
-    - name: Use Java 8 on Debian/Ubuntu.
+    - name: Install python3-apt
+      raw: apt-get install -y python-apt
+
+    - name: Use Java 8
       set_fact:
         java_packages:
           - openjdk-8-jdk
-      when: ansible_os_family == 'Debian'
 
   roles:
     - ansible-role-java
     - ansible-role-elasticsearch
-    - ansible-role-logstash
+
+  tasks:
+    - ansible.builtin.include_role:
+        name: infra.logstash
+    - name: Check logstach status
+      ansible.builtin.systemd:
+        state: started
+        name: logstash.service
 
