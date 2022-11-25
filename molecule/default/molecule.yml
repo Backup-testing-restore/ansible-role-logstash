@@ -10,7 +10,10 @@ platforms:
     image: "geerlingguy/docker-ubuntu2004-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-"/usr/sbin/init"}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro      
+      - /var/lib/containerd
+    # https://www.jeffgeerling.com/blog/2022/docker-and-systemd-getting-rid-dreaded-failed-connect-bus-error
+    cgroupns_mode: host
     privileged: true
     pre_build_image: true
 
