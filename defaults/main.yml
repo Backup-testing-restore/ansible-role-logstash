@@ -25,4 +25,5 @@ logstash_install_plugins:
   - logstash-filter-multiline
 
 logstash_setup_default_config: true
+logstash_setup_service_config: true
 

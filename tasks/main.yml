@@ -1,6 +1,9 @@
 ---
-- name: Include OS Specific setup tasks
-  include: setup-Debian.yml
+- name: Install from official repository
+  include: install.yml
+
+- name: Apply default configurations
+  include: configuration.yml
 
 - name: Ensure Logstash is started and enabled on boot.
   service:
