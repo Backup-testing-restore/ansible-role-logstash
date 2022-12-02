@@ -50,8 +50,6 @@
     - 10-syslog.conf
     - 11-nginx.conf
     - 12-apache.conf
-    - 14-solr.conf
-    - 15-drupal.conf
   when: logstash_setup_default_config
   notify: restart logstash
 
