@@ -27,4 +27,4 @@
     name: logstash
     group: logstash
     groups: adm
-  notify: restart logstash
+  notify: restart logstash necessarily

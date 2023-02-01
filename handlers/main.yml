@@ -1,5 +1,11 @@
 ---
+- name: restart logstash necessarily
+  service:
+    name: logstash
+    state: restarted
+
 - name: restart logstash
+  when: not logstash_service_config_auto_reload_flag
   service:
     name: logstash
     state: restarted
