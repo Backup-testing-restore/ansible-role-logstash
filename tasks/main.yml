@@ -1,11 +1,11 @@
 ---
 - name: Install from official repository
-  include: install.yml
+  include_tasks: install.yml
 
 - name: Apply default configurations
-  include: configuration.yml
+  include_tasks: configuration.yml
 - name: Install and verify plugins from configs
-  include: plugins.yml
+  include_tasks: plugins.yml
 
 - name: Ensure Logstash is started and enabled on boot.
   service:

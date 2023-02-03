@@ -7,21 +7,21 @@ After=network-online.target
 
 [Service]
 Type=simple
-User={{ logstash_service_config_user }}
-Group={{ logstash_service_config_group }}
+User={{ logstash_service_os_user }}
+Group={{ logstash_service_os_group }}
 # Load env vars from /etc/default/ and /etc/sysconfig/ if they exist.
 # Prefixing the path with '-' makes it try to load, but if the file doesn't
 # exist, it continues onward.
 EnvironmentFile=-/etc/default/logstash
 EnvironmentFile=-/etc/sysconfig/logstash
 # https://www.elastic.co/guide/en/logstash/current/reloading-config.html
-{% if logstash_service_config_auto_reload_flag == 1 %}
+{% if logstash_service_config_auto_reload_flag %}
 ExecStart=/usr/share/logstash/bin/logstash "--path.settings" "/etc/logstash" "--config.reload.automatic"
 {% else %}
 ExecStart=/usr/share/logstash/bin/logstash "--path.settings" "/etc/logstash"
 {% endif %}
 Restart=always
-WorkingDirectory=/
+WorkingDirectory=/ 
 Nice=19
 LimitNOFILE=16384
 

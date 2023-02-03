@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 output {
   elasticsearch {
     hosts => {{ logstash_elasticsearch_hosts | to_json }}

@@ -13,17 +13,17 @@ logstash_monitor_local_syslog: true
 
 logstash_dir: /usr/share/logstash
 
-
 logstash_enabled_on_boot: true
 
 logstash_install_plugins:
   - logstash-input-beats
   - logstash-filter-multiline
 
+logstash_service_os_user: logstash
+logstash_service_os_group: logstash
+
 logstash_setup_default_config: true
 
 logstash_setup_service_config: true
 logstash_service_config_auto_reload_flag: true
-logstash_service_config_user: logstash
-logstash_service_config_group: logstash
 
