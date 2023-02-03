@@ -30,3 +30,13 @@ logstash_service_config_use_auto_reload: true
 
 logstash_setup_default_settings: true
 logstash_default_settings_extra_options: ""
+
+
+logstash_ssl_enable: true
+logstash_ssl_dest_dir: /etc/logstash/certs
+logstash_ssl_certificate_filename: "logstash.crt"
+logstash_ssl_key_filename: "logstash.key"
+
+logstash_ssl_authorities_enable: true
+logstash_ssl_authorities_force_peer: true
+logstash_ssl_authorities_certificate_filename: "ca.crt"

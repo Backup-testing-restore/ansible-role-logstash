@@ -1,0 +1,38 @@
+---
+- name: Ensure Logstash SSL directory exists.
+  file:
+    path: "{{ logstash_ssl_dest_dir }}"
+    state: directory
+    owner: "{{ logstash_service_os_user }}"
+    group: "{{ logstash_service_os_group }}"
+    mode: '0755'
+  when: logstash_ssl_enable
+  
+- name: Copy SSL key and cert for logstash-forwarder.
+  copy:
+    src: "{{ item }}"
+    dest: "{{ logstash_ssl_dest_dir }}/{{ item | basename }}"
+    owner: "{{ logstash_service_os_user }}"
+    group: "{{ logstash_service_os_group }}"
+    mode: '0640'
+    remote_src: yes
+  with_items:
+    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_certificate_filename }}"
+    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_key_filename }}"
+  notify: restart logstash necessarily
+  when: logstash_ssl_enable and not logstash_ssl_authorities_enable
+
+- name: Copy SSL key, cert and authorities cert for logstash-forwarder.
+  copy:
+    src: "{{ item }}"
+    dest: "{{ logstash_ssl_dest_dir }}/{{ item | basename }}"
+    owner: "{{ logstash_service_os_user }}"
+    group: "{{ logstash_service_os_group }}"
+    mode: '0640'
+    remote_src: yes
+  with_items:
+    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_certificate_filename }}"
+    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_key_filename }}"
+    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_authorities_certificate_filename }}"
+  notify: restart logstash necessarily
+  when: logstash_ssl_enable and logstash_ssl_authorities_enable
