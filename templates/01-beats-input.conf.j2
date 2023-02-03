@@ -2,5 +2,16 @@
 input {
   beats {
     port => {{ logstash_listen_port_beats }}
+
+    {% if logstash_ssl_enable %}
+    ssl => true
+    ssl_certificate => "{{ logstash_ssl_dir }}/{{ logstash_ssl_certificate_filename }}"
+    ssl_key => "{{ logstash_ssl_dir }}/{{ logstash_ssl_key_filename }}"
+
+    {% if logstash_ssl_authorities_enable %}
+    ssl_certificate_authorities => ["{{ logstash_ssl_dest_dir }}/{{ logstash_ssl_authorities_certificate_filename }}"]
+    ssl_verify_mode => {% if logstash_ssl_authorities_force_peer %} "force_peer" {% else %} "peer" {% endif %}
+    {% endif %}
+    {% endif %}
   }
 }
