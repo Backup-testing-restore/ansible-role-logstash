@@ -21,12 +21,36 @@
 
   roles:
     - ansible-role-java
-    - ansible-role-elasticsearch
+    - role: ansible-role-elasticsearch
+      vars:
+        elasticsearch_extra_options: |
+          xpack.security.enabled: true
 
   tasks:
-    - ansible.builtin.include_role:
+    - name: Stop elasticsearch
+      service:
+        name: elasticsearch
+        state: stopped
+    # https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-users.html#set-built-in-user-passwords
+    - name: Set bootstrap password
+      shell: echo "Qwerty12345" | bin/elasticsearch-keystore add "bootstrap.password"
+      args:
+        chdir: "/usr/share/elasticsearch"
+      no_log: True
+    - name: Start elasticsearch
+      service:
+        name: elasticsearch
+        state: started
+    - name: Install Logstash
+      ansible.builtin.include_role: 
         name: infra.logstash
-    - name: Check logstach status
+      vars:
+        elasticsearch_logstash_system_username: "elastic"
+        elasticsearch_logstash_system_password: "Qwerty12345"
+        elasticsearch_logstash_user_password: "Qwerty12345"
+        logstash_elasticsearch_hosts:
+          - http://127.0.0.1:9200
+    - name: Check Logstash status
       ansible.builtin.systemd:
         state: started
         name: logstash.service

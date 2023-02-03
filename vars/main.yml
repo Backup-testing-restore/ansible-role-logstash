@@ -1,6 +1,6 @@
 ---
 # vars file for logstash
 
-node_name: "logstache-node"
-elasticsearch_logstash_system_username: "logstash_system"
+node_name: "logstashe-node"
+elasticsearch_logstash_system_username: ""
 elasticsearch_logstash_system_password: ""
