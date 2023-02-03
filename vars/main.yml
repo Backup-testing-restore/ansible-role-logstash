@@ -4,3 +4,10 @@
 node_name: "logstashe-node"
 elasticsearch_logstash_system_username: ""
 elasticsearch_logstash_system_password: ""
+
+elasticsearch_logstash_need_create_role: true
+elasticsearch_logstash_role_name: logstash_writer
+
+elasticsearch_logstash_need_create_user: true
+elasticsearch_logstash_user_name: logstash_internal
+elasticsearch_logstash_user_password: ""
