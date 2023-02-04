@@ -23,7 +23,9 @@ logstash_service_os_user: logstash
 logstash_service_os_group: logstash
 
 logstash_setup_default_config: true
+logstash_custom_configs_list: 
+  - ""
 
 logstash_setup_service_config: true
-logstash_service_config_auto_reload_flag: true
+logstash_service_config_use_auto_reload: true
 

@@ -64,3 +64,14 @@
     state: absent
   when: not logstash_monitor_local_syslog
   notify: restart logstash
+
+- name: Add user provided Logstash configuration files.
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ logstash_custom_configs_list }}"
+  when: logstash_custom_configs_list > 0
+  notify: restart logstash
