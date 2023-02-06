@@ -32,7 +32,6 @@
     - 01-beats-input.conf
     - 30-elasticsearch-output.conf
   when: logstash_setup_default_config
-  notify: restart logstash
 
 - name: Create Logstash filters.
   copy:
@@ -46,24 +45,6 @@
     - 11-nginx.conf
     - 12-apache.conf
   when: logstash_setup_default_config
-  notify: restart logstash
-
-- name: Create Logstash configuration file for local syslog.
-  template:
-    src: 02-local-syslog-output.conf.j2
-    dest: /etc/logstash/conf.d/02-local-syslog-output.conf
-    owner: root
-    group: root
-    mode: 0644
-  when: logstash_monitor_local_syslog
-  notify: restart logstash
-
-- name: Ensure configuration for local syslog is absent if disabled.
-  file:
-    path: /etc/logstash/conf.d/02-local-syslog-output.conf
-    state: absent
-  when: not logstash_monitor_local_syslog
-  notify: restart logstash
 
 - name: Add user provided Logstash configuration files.
   copy:
@@ -74,4 +55,23 @@
     mode: 0644
   loop: "{{ logstash_custom_configs_list }}"
   when: logstash_custom_configs_list > 0
+
+- name: Create Logstash configuration file for local syslog.
+  template:
+    src: 02-local-syslog-output.conf.j2
+    dest: /etc/logstash/conf.d/02-local-syslog-output.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: logstash_monitor_local_syslog
+
+- name: Restart Logstash if don't use auto-reload
+  when: not logstash_service_config_use_auto_reload
+  notify: restart logstash
+
+- name: Ensure configuration for local syslog is absent if disabled.
+  file:
+    path: /etc/logstash/conf.d/02-local-syslog-output.conf
+    state: absent
+  when: not logstash_monitor_local_syslog
   notify: restart logstash
