@@ -8,9 +8,7 @@
     mode: '0640'
   loop: ["logstash.service"]
   when: logstash_setup_service_config
-  notify: 
-    - restart logstash
-    - systemd reload
+  notify: restart logstash
 
 - name: Copy logstash.yml
   template:

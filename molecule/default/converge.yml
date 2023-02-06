@@ -5,6 +5,8 @@
 
   vars:
     logstash_enabled_on_boot: false
+    java_packages:
+          - openjdk-8-jdk
 
   pre_tasks:
     - name: Update apt cache.
@@ -14,11 +16,6 @@
     - name: Install python3-apt
       raw: apt-get install -y python-apt
 
-    - name: Use Java 8
-      set_fact:
-        java_packages:
-          - openjdk-8-jdk
-
   roles:
     - ansible-role-java
     - role: ansible-role-elasticsearch
@@ -27,6 +24,7 @@
           xpack.security.enabled: true
 
   tasks:
+# ------------------------------- Elastic setup ------------------------------- #
     - name: Stop elasticsearch
       service:
         name: elasticsearch
@@ -41,6 +39,8 @@
       service:
         name: elasticsearch
         state: started
+
+# ------------------------------- Logstash setup ------------------------------- #
     - name: Install Logstash
       ansible.builtin.include_role: 
         name: infra.logstash
@@ -50,6 +50,7 @@
         elasticsearch_logstash_user_password: "Qwerty12345"
         logstash_elasticsearch_hosts:
           - http://127.0.0.1:9200
+
     - name: Check Logstash status
       ansible.builtin.systemd:
         state: started
