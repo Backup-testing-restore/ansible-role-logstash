@@ -29,3 +29,5 @@ logstash_custom_configs_list:
 logstash_setup_service_config: true
 logstash_service_config_use_auto_reload: true
 
+logstash_setup_default_settings: true
+logstash_default_settings_extra_options: ""

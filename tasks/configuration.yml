@@ -18,7 +18,7 @@
     group: logstash
     mode: '0640'
   loop: ["logstash.yml"]
-  when: logstash_setup_default_config
+  when: logstash_setup_default_settings
   notify: restart logstash
 
 - name: Create Logstash configuration files.
