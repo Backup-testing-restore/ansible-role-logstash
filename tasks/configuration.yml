@@ -53,8 +53,7 @@
     owner: root
     group: root
     mode: 0644
-  loop: "{{ logstash_custom_configs_list }}"
-  when: logstash_custom_configs_list > 0
+  loop: "{{ logstash_custom_configs_list | default([]) }}"
 
 - name: Create Logstash configuration file for local syslog.
   template:
@@ -66,6 +65,7 @@
   when: logstash_monitor_local_syslog
 
 - name: Restart Logstash if don't use auto-reload
+  command: /bin/true
   when: not logstash_service_config_use_auto_reload
   notify: restart logstash
 
