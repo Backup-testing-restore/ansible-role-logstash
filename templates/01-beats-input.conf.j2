@@ -5,7 +5,7 @@ input {
 
     {% if logstash_ssl_enable %}
     ssl => true
-    ssl_certificate => "{{ logstash_ssl_dir }}/{{ logstash_ssl_certificate_filename }}"
+    ssl_certificate => "{{ logstash_ssl_dir }}/{{ logstash_ssl_certificate_file }}"
     ssl_key => "{{ logstash_ssl_dir }}/{{ logstash_ssl_key_filename }}"
 
     {% if logstash_ssl_authorities_enable %}

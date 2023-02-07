@@ -17,8 +17,8 @@
     mode: '0640'
     remote_src: yes
   with_items:
-    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_certificate_filename }}"
-    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_key_filename }}"
+    - "{{ logstash_ssl_certificate_file }}"
+    - "{{ logstash_ssl_key_file }}"
   notify: restart logstash necessarily
   when: logstash_ssl_enable and not logstash_ssl_authorities_enable
 
@@ -31,8 +31,8 @@
     mode: '0640'
     remote_src: yes
   with_items:
-    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_certificate_filename }}"
-    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_key_filename }}"
-    - "{{ logstash_ssl_input_dir }}/{{ logstash_ssl_authorities_certificate_filename }}"
+    - "{{ logstash_ssl_certificate_file }}"
+    - "{{ logstash_ssl_key_file }}"
+    - "{{ logstash_ssl_authorities_certificate_file }}"
   notify: restart logstash necessarily
   when: logstash_ssl_enable and logstash_ssl_authorities_enable

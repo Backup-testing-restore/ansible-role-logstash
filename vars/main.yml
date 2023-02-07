@@ -17,4 +17,6 @@ elasticsearch_logstash_need_create_user: false
 elasticsearch_logstash_user_name: logstash_internal
 elasticsearch_logstash_user_password: ""
 
-logstash_ssl_input_dir: ""
+logstash_ssl_key_file: "logstash.key"
+logstash_ssl_certificate_file: "logstash.crt"
+logstash_ssl_authorities_certificate_file: "ca.crt"
