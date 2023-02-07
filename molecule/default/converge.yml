@@ -49,8 +49,7 @@
         elasticsearch_logstash_system_username: "elastic"
         elasticsearch_logstash_system_password: "Qwerty12345"
         elasticsearch_logstash_user_password: "Qwerty12345"
-        elasticsearch_logstash_need_create_user: true
-        elasticsearch_logstash_need_create_role: true
+        elasticsearch_logstash_auto_create_elastic_user: true
         logstash_ssl_enable: false
         logstash_elasticsearch_hosts:
           - http://127.0.0.1:9200

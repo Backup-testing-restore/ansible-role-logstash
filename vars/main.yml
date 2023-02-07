@@ -1,22 +1,20 @@
 ---
 # vars file for logstash
 
-node_name: "logstashe-node"
+node_name: "logstash-node"
 elasticsearch_logstash_system_username: ""
 elasticsearch_logstash_system_password: ""
 
+elasticsearch_logstash_user_name: ""
+elasticsearch_logstash_user_password: ""
+
+# Use if SSL
+logstash_ssl_key_file: ""                     # "*.key"
+logstash_ssl_certificate_file: ""             # "*.crt"
+logstash_ssl_authorities_certificate_file: "" # "*.crt" (CA)
 
 # ------------ Additional functionality ------------ #
 
-# Auto role creation for Elastic Search
-elasticsearch_logstash_need_create_role: false
-elasticsearch_logstash_role_name: logstash_writer
+# Auto role and user creation in Elastic Search
+elasticsearch_logstash_auto_create_elastic_user: false
 
-# Auto user creation for Elastic Search
-elasticsearch_logstash_need_create_user: false
-elasticsearch_logstash_user_name: logstash_internal
-elasticsearch_logstash_user_password: ""
-
-logstash_ssl_key_file: "" # "*.key"
-logstash_ssl_certificate_file: "" # "*.crt"
-logstash_ssl_authorities_certificate_file: # "*.crt" (CA)

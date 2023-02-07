@@ -1,16 +1,21 @@
 ---
+- name: Set username, if not defined
+  set_fact:
+    elasticsearch_logstash_system_username: logstash_internal
+  when: elasticsearch_logstash_auto_create_elastic_user and elasticsearch_logstash_system_username == ""
+
 - name: Create writer role in Elasticsearch
   uri:
     url: "{{ logstash_elasticsearch_hosts | first }}/_security/role/{{ elasticsearch_logstash_role_name }}"
     method: POST
     body_format: json
-    body: '{"cluster": ["manage_index_templates", "monitor", "manage_ilm"],"indices": [{"names": ["logstash-*"],"privileges": ["write","create","create_index","manage","manage_ilm"]}]}'
+    body: "{{ elasticsearch_logstash_role_settings }}"
     status_code: 200
     user: "{{ elasticsearch_logstash_system_username }}"
     password: "{{ elasticsearch_logstash_system_password }}"
     force_basic_auth: yes
     validate_certs: no
-  when: elasticsearch_logstash_need_create_role
+  when: elasticsearch_logstash_auto_create_elastic_user
   # If found errors in ELK cluster mode
   # run_once: true
 
@@ -25,6 +30,6 @@
     password: "{{ elasticsearch_logstash_system_password }}"
     force_basic_auth: yes
     validate_certs: no
-  when: elasticsearch_logstash_need_create_user
+  when: elasticsearch_logstash_auto_create_elastic_user
   # If found errors in ELK cluster mode
   # run_once: true

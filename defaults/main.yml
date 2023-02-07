@@ -40,3 +40,7 @@ logstash_ssl_dest_dir: /etc/logstash/certs
 
 logstash_ssl_authorities_enable: true
 logstash_ssl_authorities_force_peer: true
+
+
+elasticsearch_logstash_auto_create_role_name: logstash_writer
+elasticsearch_logstash_role_settings: '{"cluster": ["manage_index_templates", "monitor", "manage_ilm"],"indices": [{"names": ["logstash-*"],"privileges": ["write","create","create_index","manage","manage_ilm"]}]}'
