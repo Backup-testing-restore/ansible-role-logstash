@@ -16,3 +16,5 @@ elasticsearch_logstash_role_name: logstash_writer
 elasticsearch_logstash_need_create_user: false
 elasticsearch_logstash_user_name: logstash_internal
 elasticsearch_logstash_user_password: ""
+
+logstash_ssl_input_dir: ""
