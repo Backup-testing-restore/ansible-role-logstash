@@ -159,6 +159,17 @@ Newer versions of Filebeat and Logstash also require a pkcs8-formatted private k
     openssl pkcs8 -in logstash.key -topk8 -nocrypt -out logstash.p8
 ```
 
+If you want to use trust mechanism by TSL certificate with Filebeats you need to set path to CA certificate in `logstash_ssl_authorities_certificate_file` and generate your user certificate with CA key and certificate.  
+
+> Note: See more details in [Official Filebeat documentation](https://www.elastic.co/guide/en/beats/filebeat/current/configuring-ssl-logstash.html).
+
+It also use TSL certificate in CA authority with Elastic Search `xpack.monitoring`.
+
+Example of certificate generation with CA key+certificate:
+```bash
+    openssl x509 -days 3650 -req -sha512 -in client.csr -CAserial ca.serial -CA ca.crt -CAkey ca.key -out logstash.crt
+```
+
 Dependencies
 ------------
 
