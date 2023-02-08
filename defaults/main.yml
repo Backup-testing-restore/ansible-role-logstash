@@ -39,7 +39,7 @@ logstash_ssl_enable: true
 logstash_ssl_dest_dir: /etc/logstash/certs
 
 logstash_ssl_authorities_enable: true
-logstash_ssl_authorities_force_peer: true
+logstash_ssl_authorities_force_peer: false
 
 
 elasticsearch_logstash_auto_create_role_name: logstash_writer
