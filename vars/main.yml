@@ -1,0 +1,18 @@
+---
+# vars file for logstash
+
+node_name: "logstashe-node"
+elasticsearch_logstash_system_username: ""
+elasticsearch_logstash_system_password: ""
+
+
+# ------------ Additional functionality ------------ #
+
+# Auto role creation for Elastic Search
+elasticsearch_logstash_need_create_role: false
+elasticsearch_logstash_role_name: logstash_writer
+
+# Auto user creation for Elastic Search
+elasticsearch_logstash_need_create_user: false
+elasticsearch_logstash_user_name: logstash_internal
+elasticsearch_logstash_user_password: ""

@@ -1,0 +1,61 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    logstash_enabled_on_boot: false
+    java_packages:
+          - openjdk-8-jdk
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: 
+        update_cache: true
+
+    - name: Install python3-apt
+      raw: apt-get install -y python-apt
+
+  roles:
+    - ansible-role-java
+    - role: ansible-role-elasticsearch
+      vars:
+        elasticsearch_extra_options: |
+          xpack.security.enabled: true
+
+  tasks:
+# ------------------------------- Elastic setup ------------------------------- #
+    - name: Stop elasticsearch
+      service:
+        name: elasticsearch
+        state: stopped
+    # https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-users.html#set-built-in-user-passwords
+    - name: Set bootstrap password
+      shell: echo "Qwerty12345" | bin/elasticsearch-keystore add "bootstrap.password"
+      args:
+        chdir: "/usr/share/elasticsearch"
+      no_log: True
+      ignore_errors: true
+    - name: Start elasticsearch
+      service:
+        name: elasticsearch
+        state: started
+
+# ------------------------------- Logstash setup ------------------------------- #
+    - name: Install Logstash
+      ansible.builtin.include_role: 
+        name: infra.logstash
+      vars:
+        elasticsearch_logstash_system_username: "elastic"
+        elasticsearch_logstash_system_password: "Qwerty12345"
+        elasticsearch_logstash_user_password: "Qwerty12345"
+        elasticsearch_logstash_need_create_user: true
+        elasticsearch_logstash_need_create_role: true
+        logstash_elasticsearch_hosts:
+          - http://127.0.0.1:9200
+
+    - name: Check Logstash status
+      ansible.builtin.systemd:
+        state: started
+        name: logstash.service
+

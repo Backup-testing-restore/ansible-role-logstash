@@ -1,0 +1,130 @@
+
+# ------------  Node identity ------------
+#
+# Use a descriptive name for the node:
+#
+node.name: {{ node_name }}
+#
+# If omitted the node name will default to the machine's host name
+#
+# ------------ Data path ------------------
+#
+# Which directory should be used by logstash and its plugins
+# for any persistent needs. Defaults to LOGSTASH_HOME/data
+#
+path.data: /var/lib/logstash
+#
+# ------------ Pipeline Settings --------------
+#
+# The ID of the pipeline.
+#
+# pipeline.id: main
+#
+# Set the number of workers that will, in parallel, execute the filters+outputs
+# stage of the pipeline.
+#
+# This defaults to the number of the host's CPU cores.
+#
+# pipeline.workers: 2
+#
+# How many events to retrieve from inputs before sending to filters+workers
+#
+# pipeline.batch.size: 125
+#
+# How long to wait in milliseconds while polling for the next event
+# before dispatching an undersized batch to filters+outputs
+#
+# pipeline.batch.delay: 50
+#
+# Force Logstash to exit during shutdown even if there are still inflight
+# events in memory. By default, logstash will refuse to quit until all
+# received events have been pushed to the outputs.
+#
+# WARNING: enabling this can lead to data loss during shutdown
+#
+# pipeline.unsafe_shutdown: false
+#
+# Set the pipeline event ordering. Options are "auto" (the default), "true" or "false".
+# "auto" will  automatically enable ordering if the 'pipeline.workers' setting
+# is also set to '1'.
+# "true" will enforce ordering on the pipeline and prevent logstash from starting
+# if there are multiple workers.
+# "false" will disable any extra processing necessary for preserving ordering.
+#
+# pipeline.ordered: auto
+#
+# Sets the pipeline's default value for `ecs_compatibility`, a setting that is
+# available to plugins that implement an ECS Compatibility mode for use with
+# the Elastic Common Schema.
+# Possible values are:
+# - disabled (default)
+# - v1
+# - v8
+# The default value will be `v8` in Logstash 8, making ECS on-by-default. To ensure a
+# migrated pipeline continues to operate as it did before your upgrade, opt-OUT
+# of ECS for the individual pipeline in its `pipelines.yml` definition. Setting
+# it here will set the default for _all_ pipelines, including new ones.
+#
+pipeline.ecs_compatibility: disabled
+#
+# ------------ Pipeline Configuration Settings --------------
+#
+# Where to fetch the pipeline configuration for the main pipeline
+#
+path.config: /etc/logstash/conf.d/*.conf
+#
+# Pipeline configuration string for the main pipeline
+#
+# config.string:
+#
+# At startup, test if the configuration is valid and exit (dry run)
+#
+# config.test_and_exit: false
+#
+# Periodically check if the configuration has changed and reload the pipeline
+# This can also be triggered manually through the SIGHUP signal
+#
+config.reload.automatic: {% if logstash_service_config_use_auto_reload %} true {% else %} false {% endif %}
+#
+# How often to check if the pipeline configuration has changed (in seconds)
+# Note that the unit value (s) is required. Values without a qualifier (e.g. 60)
+# are treated as nanoseconds.
+# Setting the interval this way is not recommended and might change in later versions.
+#
+# config.reload.interval: 3s
+#
+# Show fully compiled configuration as debug log message
+# NOTE: --log.level must be 'debug'
+#
+# config.debug: false
+#
+# When enabled, process escaped characters such as \n and \" in strings in the
+# pipeline configuration files.
+#
+# config.support_escapes: false
+#
+
+# ------------ Debugging Settings --------------
+#
+# Options for log.level:
+#   * fatal
+#   * error
+#   * warn
+#   * info (default)
+#   * debug
+#   * trace
+#
+# log.level: info
+path.logs: /var/log/logstash
+
+# ------------ X-Pack Settings (not applicable for OSS build)--------------
+#
+# X-Pack Monitoring
+# https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.username: {{ elasticsearch_logstash_system_username}}
+xpack.monitoring.elasticsearch.password: {{ elasticsearch_logstash_system_password }}
+
+xpack.monitoring.elasticsearch.hosts: {{ logstash_elasticsearch_hosts }}
+
+{{ logstash_default_settings_extra_options }}

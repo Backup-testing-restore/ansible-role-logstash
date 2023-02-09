@@ -1,0 +1,77 @@
+---
+- name: Copy systemd unit
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: '0640'
+  loop: ["logstash.service"]
+  when: logstash_setup_service_config
+  notify: restart logstash
+
+- name: Copy logstash.yml
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/logstash/{{ item }}"
+    owner: logstash
+    group: logstash
+    mode: '0640'
+  loop: ["logstash.yml"]
+  when: logstash_setup_default_settings
+  notify: restart logstash
+
+- name: Create Logstash configuration files.
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - 01-beats-input.conf
+    - 30-elasticsearch-output.conf
+  when: logstash_setup_default_config
+
+- name: Create Logstash filters.
+  copy:
+    src: "filters/{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - 10-syslog.conf
+    - 11-nginx.conf
+    - 12-apache.conf
+  when: logstash_setup_default_config
+
+- name: Add user provided Logstash configuration files.
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ logstash_custom_configs_list | default([]) }}"
+
+- name: Create Logstash configuration file for local syslog.
+  template:
+    src: 02-local-syslog-output.conf.j2
+    dest: /etc/logstash/conf.d/02-local-syslog-output.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: logstash_monitor_local_syslog
+
+- name: Restart Logstash if don't use auto-reload
+  command: /bin/true
+  when: not logstash_service_config_use_auto_reload
+  notify: restart logstash
+
+- name: Ensure configuration for local syslog is absent if disabled.
+  file:
+    path: /etc/logstash/conf.d/02-local-syslog-output.conf
+    state: absent
+  when: not logstash_monitor_local_syslog
+  notify: restart logstash

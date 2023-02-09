@@ -1,0 +1,10 @@
+---
+- src: https://github.com/geerlingguy/ansible-role-elasticsearch.git
+  scm: git
+  version: 5.1.0
+  name: ansible-role-elasticsearch
+
+- src: https://github.com/geerlingguy/ansible-role-java.git
+  scm: git
+  version: 2.2.0
+  name: ansible-role-java
