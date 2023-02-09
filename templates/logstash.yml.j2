@@ -122,8 +122,8 @@ path.logs: /var/log/logstash
 # X-Pack Monitoring
 # https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
 xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.username: {{ elasticsearch_logstash_system_username}}
-xpack.monitoring.elasticsearch.password: {{ elasticsearch_logstash_system_password }}
+xpack.monitoring.elasticsearch.username: {{ logstash_system_username}}
+xpack.monitoring.elasticsearch.password: {{ logstash_system_password }}
 xpack.monitoring.elasticsearch.hosts: {{ logstash_elasticsearch_hosts }}
 
 {% if logstash_ssl_authorities_enable %}

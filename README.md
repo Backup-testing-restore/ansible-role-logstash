@@ -19,17 +19,17 @@ Role Variables
 
 — Login and password for system privilege user in Elastic Search.
 
-    elasticsearch_logstash_system_username: ""
-    elasticsearch_logstash_system_password: ""
+    logstash_system_username: ""
+    logstash_system_password: ""
 
 — Login and password for user for writing logs in Elastic Search.
 
-> `username` is optional if `elasticsearch_logstash_auto_create_elastic_user` is `true`.
+> `username` is optional if `logstash_auto_create_elastic_user` is `true`.
 
 > Unused if `logstash_ssl_authorities_force_peer` is `true`.
 > 
-    elasticsearch_logstash_user_name: ""
-    elasticsearch_logstash_user_password: ""
+    logstash_user_name: ""
+    logstash_user_password: ""
 
 — Local paths to the SSL certificate and key files, which will be copied into the `logstash_ssl_dest_dir`.
 
@@ -48,7 +48,7 @@ See [Generating a self-signed certificate](#generating-a-self-signed-certificate
 
 — Additional parameter for auto creation of role and user in Elastic Search by http requests. Useful for simple scenarios and testing environment.
 
-    elasticsearch_logstash_auto_create_elastic_user: false
+    logstash_auto_create_elastic_user: false
 
 
 ### Available variables with default values (see `defaults/main.yml`):
@@ -137,8 +137,8 @@ See [Generating a self-signed certificate](#generating-a-self-signed-certificate
 
 — Parameters of request for auto creating role in Elastic Search.
 
-    elasticsearch_logstash_auto_create_role_name: logstash_writer
-    elasticsearch_logstash_role_settings: "..."
+    logstash_auto_create_role_name: logstash_writer
+    logstash_auto_create_role_request_settings: "..."
 
 
 
@@ -188,10 +188,10 @@ Without SSL setup and with auto created role and user for Elastic Search:
         - infra.elasticsearch
         - role: infra.logstash
           vars:
-            elasticsearch_logstash_system_username: "elastic"
-            elasticsearch_logstash_system_password: "Qwerty12345"
-            elasticsearch_logstash_user_password: "Qwerty12345"
-            elasticsearch_logstash_auto_create_elastic_user: true
+            logstash_system_username: "elastic"
+            logstash_system_password: "Qwerty12345"
+            logstash_user_password: "Qwerty12345"
+            logstash_auto_create_elastic_user: true
             logstash_ssl_enable: false
             logstash_elasticsearch_hosts:
             - http://127.0.0.1:9200
@@ -205,10 +205,10 @@ Default setup with SSL certificates:
         - infra.elasticsearch
         - role: infra.logstash
           vars:
-            elasticsearch_logstash_system_username: "elastic"
-            elasticsearch_logstash_system_password: "Qwerty12345"
-            elasticsearch_logstash_user_name: "logstash-internal"
-            elasticsearch_logstash_user_password: "Qwerty12345"
+            logstash_system_username: "elastic"
+            logstash_system_password: "Qwerty12345"
+            logstash_user_name: "logstash-internal"
+            logstash_user_password: "Qwerty12345"
             logstash_ssl_key_file: "/path/to/logstash.key"
             logstash_ssl_certificate_file: "/path/to/logstash.crt"
             logstash_ssl_authorities_certificate_file: "/path/to/ca.crt"

@@ -5,8 +5,8 @@ output {
     index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
 
     {% if not logstash_ssl_authorities_force_peer %}
-    user => {{ elasticsearch_logstash_user_name }}
-    password => {{ elasticsearch_logstash_user_password }}
+    user => {{ logstash_user_name }}
+    password => {{ logstash_user_password }}
     {% endif %}
 
     {% if logstash_ssl_authorities_enable %}
