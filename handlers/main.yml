@@ -2,4 +2,5 @@
 - name: restart logstash
   systemd:
     name: logstash
+    daemon_reload: yes
     state: restarted
