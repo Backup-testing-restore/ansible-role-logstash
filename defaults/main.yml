@@ -3,30 +3,44 @@ logstash_version: '7.x'
 
 logstash_package: logstash
 
-logstash_listen_port_beats: 5044
+logstash_dir: /usr/share/logstash
 
 logstash_elasticsearch_hosts:
   - https://127.0.0.1:9200
 
-logstash_local_syslog_path: /var/log/syslog
-logstash_monitor_local_syslog: true
+logstash_listen_port_beats: 5044
 
-logstash_dir: /usr/share/logstash
+
+logstash_service_os_user: root
+logstash_service_os_group: root
 
 logstash_enabled_on_boot: true
+
+logstash_setup_os_service: true
 
 logstash_install_plugins:
   - logstash-input-beats
   - logstash-filter-multiline
 
-logstash_service_os_user: logstash
-logstash_service_os_group: logstash
-
-logstash_setup_default_config: true
-logstash_custom_configs_list: []
-
-logstash_setup_service_config: true
-logstash_service_config_use_auto_reload: true
 
 logstash_setup_default_settings: true
 logstash_default_settings_extra_options: ""
+
+logstash_use_config_auto_reload: true
+logstash_setup_default_config: true
+
+logstash_custom_configs_list: []
+
+logstash_monitor_local_syslog: true
+logstash_local_syslog_path: /var/log/syslog
+
+
+logstash_ssl_enable: true
+logstash_ssl_dest_dir: /etc/logstash/certs
+
+logstash_ssl_authorities_enable: true
+logstash_ssl_authorities_force_peer: false
+
+
+logstash_auto_create_role_name: logstash_writer
+logstash_auto_create_role_request_settings: '{"cluster": ["manage_index_templates", "monitor", "manage_ilm"],"indices": [{"names": ["logstash-*"],"privileges": ["write","create","create_index","manage","manage_ilm"]}]}'
