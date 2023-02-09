@@ -7,6 +7,9 @@
 - name: Install and verify plugins from configs
   include_tasks: plugins.yml
 
+- name: Setup connection security
+  include_tasks: security.yml
+
 - name: Added to Elasticsearch user for Logstash
   include_tasks: create_users.yml
 

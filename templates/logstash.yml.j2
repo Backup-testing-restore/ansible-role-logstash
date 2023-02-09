@@ -84,7 +84,7 @@ path.config: /etc/logstash/conf.d/*.conf
 # Periodically check if the configuration has changed and reload the pipeline
 # This can also be triggered manually through the SIGHUP signal
 #
-config.reload.automatic: {% if logstash_service_config_use_auto_reload %} true {% else %} false {% endif %}
+config.reload.automatic: {% if logstash_use_config_auto_reload %} true {% else %} false {% endif %}
 #
 # How often to check if the pipeline configuration has changed (in seconds)
 # Note that the unit value (s) is required. Values without a qualifier (e.g. 60)
@@ -122,9 +122,12 @@ path.logs: /var/log/logstash
 # X-Pack Monitoring
 # https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
 xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.username: {{ elasticsearch_logstash_system_username}}
-xpack.monitoring.elasticsearch.password: {{ elasticsearch_logstash_system_password }}
-
+xpack.monitoring.elasticsearch.username: {{ logstash_system_username}}
+xpack.monitoring.elasticsearch.password: {{ logstash_system_password }}
 xpack.monitoring.elasticsearch.hosts: {{ logstash_elasticsearch_hosts }}
+
+{% if logstash_ssl_authorities_enable %}
+xpack.monitoring.elasticsearch.ssl.certificate_authority: {{ logstash_ssl_dest_dir }}/{{ logstash_ssl_authorities_certificate_file | basename }}
+{% endif %}
 
 {{ logstash_default_settings_extra_options }}
