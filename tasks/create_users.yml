@@ -1,8 +1,8 @@
 ---
 - name: Set username, if not defined
   set_fact:
-    logstash_system_username: logstash_internal
-  when: logstash_auto_create_elastic_user and logstash_system_username == ""
+    logstash_user_name: logstash_internal
+  when: logstash_auto_create_elastic_user and logstash_user_name == ""
 
 - name: Create writer role in Elasticsearch
   uri:
@@ -24,7 +24,7 @@
     url: "{{ logstash_elasticsearch_hosts | first }}/_security/user/{{ logstash_user_name }}"
     method: POST
     body_format: json
-    body: '{ "password" : "{{ logstash_user_password }}","roles" : ["{{ logstash_role_name }}"],"full_name" : "Internal Logstash User"}'
+    body: '{ "password" : "{{ logstash_user_password }}","roles" : ["{{ logstash_auto_create_role_name }}"],"full_name" : "Internal Logstash User"}'
     status_code: 200
     user: "{{ logstash_system_username }}"
     password: "{{ logstash_system_password }}"

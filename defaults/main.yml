@@ -43,4 +43,4 @@ logstash_ssl_authorities_force_peer: false
 
 
 logstash_auto_create_role_name: logstash_writer
-logstash_auto_create_role_request_settings: '{"cluster": ["manage_index_templates", "monitor", "manage_ilm"],"indices": [{"names": ["logstash-*"],"privileges": ["write","create","create_index","manage","manage_ilm"]}]}'
+logstash_auto_create_role_request_settings: '{"cluster": ["manage_index_templates", "monitor", "manage_ilm"],"indices": [{"names": ["logstash-*"],"privileges": ["write","create","delete","create_index","manage","manage_ilm"], "field_security":{"grant":["*"]}}]}'

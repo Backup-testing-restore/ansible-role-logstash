@@ -2,6 +2,9 @@
 - name: Install from official repository
   include_tasks: install.yml
 
+- name: Added to Elasticsearch user for Logstash
+  include_tasks: create_users.yml
+
 - name: Apply default configurations
   include_tasks: configuration.yml
 - name: Install and verify plugins from configs
@@ -9,9 +12,6 @@
 
 - name: Setup connection security
   include_tasks: security.yml
-
-- name: Added to Elasticsearch user for Logstash
-  include_tasks: create_users.yml
 
 - name: Ensure Logstash is started and enabled on boot.
   systemd:
